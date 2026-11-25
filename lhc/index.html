@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let 'Em Cook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Let 'Em Cook showcase, in the app's own colours: a short story told in four chapters, then Walla. */
+:root{--bg:#fffaf3;--surface:#fff;--ink:#1e1b18;--ink-soft:#49433d;--muted:#6f6860;--line:#efe5d8;--line-strong:#e0d3c2;
+--orange:#ff7a3d;--orange-ink:#ad3708;--orange-wash:#ffe8dc;--butter:#ffd666;--butter-ink:#8a5a00;--butter-wash:#fff3c9;--mint:#5fcf97;--mint-ink:#1d6f45;--mint-wash:#dcf5e7;--sky-ink:#1d5ea3;--sky-wash:#dff0ff;--lilac-ink:#5a3fbf;--lilac-wash:#ece5ff;
+--display:"Bricolage Grotesque",ui-rounded,system-ui,sans-serif;--ui:"Plus Jakarta Sans",ui-rounded,system-ui,sans-serif;
+--shadow-card:0 1px 2px rgba(30,27,24,.04),0 8px 24px -12px rgba(30,27,24,.16);--shadow-pop:0 30px 70px -24px rgba(30,27,24,.45)}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--ui);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,3vw,40px)}
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.98;margin:0}
+p{margin:0}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:8px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:24px;align-items:center;padding-block:56px 32px}
+.brand{display:flex;align-items:center;gap:10px;font:800 20px var(--display);letter-spacing:-.03em}
+.brand img{width:34px;height:34px;border-radius:9px}
+.hero h1{font-size:clamp(46px,6.6vw,84px);margin-top:20px}
+.hero h1 em{font-style:normal;color:var(--orange)}
+.hero p.lede{font-size:clamp(17px,1.6vw,20px);color:var(--ink-soft);margin-top:18px;max-width:36ch}
+.ways{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.ways span{border-radius:12px;padding:9px 14px;font-weight:700;font-size:14.5px}
+.w1{background:var(--orange-wash);color:var(--orange-ink)}.w2{background:var(--butter-wash);color:var(--butter-ink)}.w3{background:var(--mint-wash);color:var(--mint-ink)}.w4{background:var(--sky-wash);color:var(--sky-ink)}.w5{background:var(--lilac-wash);color:var(--lilac-ink)}
+.hero-walla{display:flex;justify-content:center}
+
+/* story */
+.story{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,.75fr);gap:clamp(18px,2.4vw,32px);align-items:start;padding-block:28px 24px}
+.frame{border-radius:20px;border:1px solid var(--line);background:#fff;overflow:hidden;box-shadow:var(--shadow-pop)}
+.frame .bar{height:32px;display:flex;align-items:center;gap:6px;padding:0 14px;border-bottom:1px solid var(--line)}
+.frame .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.stage{position:relative;aspect-ratio:16/10;overflow:hidden;background:#fff;container-type:inline-size}
+.stage>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s ease}
+.stage>img.on{opacity:1}
+.pane{position:absolute;inset:0;display:grid;place-items:center;padding:4% 6%;background:radial-gradient(70% 60% at 15% 0%,#fff3c9,transparent 70%),radial-gradient(60% 60% at 100% 100%,#ffe8dc,transparent 70%),#fffaf3;opacity:0;transition:opacity .45s}
+.pane.on{opacity:1}
+.pcard{width:100%;max-width:560px;background:#fff;border-radius:20px;box-shadow:var(--shadow-card);padding:clamp(14px,2.2vw,24px)}
+.phd{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
+.kick{display:block;font-size:clamp(10px,1.1vw,12.5px);font-weight:700;color:var(--orange-ink)}
+.phd b{font:800 clamp(18px,2.2vw,26px)/1.1 var(--display);letter-spacing:-.03em}
+.srv{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted)}
+.srv button{all:unset;width:26px;height:26px;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;color:var(--ink);font-weight:700}
+.srv button.press{background:var(--orange);color:#fff;border-color:var(--orange)}
+.srv em{font-style:normal;font:800 18px var(--display);color:var(--ink);min-width:16px;text-align:center}
+#ingList{list-style:none;margin:0;padding:0;display:grid}
+#ingList li{display:flex;gap:10px;padding:clamp(5px,.8vw,8px) 0;border-bottom:1px dashed var(--line);font-size:clamp(11.5px,1.3vw,15px)}
+#ingList li:last-child{border:0}
+#ingList .q{font-weight:800;min-width:70px;color:var(--ink);transition:color .3s}
+#ingList .q.chg{color:var(--orange);animation:pop .4s}
+@keyframes pop{50%{transform:scale(1.15)}}
+.awake{font-size:12px;font-weight:600;color:var(--mint-ink);background:var(--mint-wash);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#stepList{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+#stepList li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;padding:clamp(7px,1vw,11px);border-radius:12px;font-size:clamp(11.5px,1.3vw,15px);color:var(--muted);transition:all .3s}
+#stepList li .n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;background:var(--line);color:var(--ink)}
+#stepList li.cur{background:var(--orange-wash);color:var(--ink);font-weight:600}
+#stepList li.cur .n{background:var(--orange);color:#fff}
+#stepList li.done{color:var(--muted);text-decoration:line-through;opacity:.6}
+#stepList li.done .n{background:var(--mint);color:#fff}
+.nav{display:flex;justify-content:flex-end;margin-top:10px}
+#stepBtn{background:var(--ink);color:#fff;border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px;transition:transform .15s}
+#stepBtn.press{transform:scale(.94)}
+.cursor{position:absolute;z-index:6;width:22px;height:22px;left:60%;top:40%;transition:left .6s cubic-bezier(.3,.7,.25,1),top .6s cubic-bezier(.3,.7,.25,1),transform .12s ease;transform-origin:20% 10%;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+.cursor.press{transform:scale(.82)}
+.ov.hl2{border:2px solid var(--orange);border-radius:12px;box-shadow:0 0 0 5px rgba(255,122,61,.16)}
+.startbtn{display:inline-block;margin-top:12px;background:var(--ink);color:#fff;border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px;transition:transform .15s}.startbtn.press{transform:scale(.94)}
+.ripple{position:absolute;z-index:5;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:2px solid var(--orange);opacity:0;pointer-events:none}
+.ripple.go{animation:rip .6s ease-out}
+@keyframes rip{from{opacity:.9;transform:scale(.3)}to{opacity:0;transform:scale(1.4)}}
+.ov{position:absolute;z-index:4;opacity:0;transition:opacity .3s}
+.ov.on{opacity:1}
+.ov.ring5{border:3px solid var(--orange);border-radius:12px;box-shadow:0 0 0 6px rgba(255,122,61,.18);top:19.4%;width:14.4%;height:23.2%;transition:left .45s cubic-bezier(.3,.8,.3,1),opacity .3s}
+.ov.url{left:25.6%;top:53.4%;width:57%;height:5.2%;background:#fff;display:flex;align-items:center;padding:0 1cqw;font-size:1.2cqw;color:#222;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box}
+.ov.chk{left:45.2%;top:28%;width:1.9%;height:3%;background:#E8622F;border-radius:3px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700}
+.ov.hl{left:39.5%;top:37%;width:58%;height:18%;border:2px solid #E8622F;border-radius:14px;background:rgba(232,98,47,.07)}
+.ov.dim{left:39.5%;top:9.8%;width:58%;height:24%;background:rgba(255,255,255,.65);border-radius:14px}
+.ov.serves{left:31.5%;top:57.4%;width:2.8%;height:3.6%;background:#fff;display:grid;place-items:center;font:800 clamp(10px,1.3vw,17px) var(--ui);color:#1e1b18;border-radius:4px}
+.ov.serves.flash{color:var(--orange)}
+.toast{position:absolute;z-index:7;left:50%;bottom:7%;transform:translate(-50%,12px);opacity:0;transition:all .35s ease;background:#1e1b18;color:#fff;border-radius:999px;padding:10px 18px;font-weight:700;font-size:clamp(11px,1.2vw,15px);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast i{width:18px;height:18px;border-radius:50%;background:var(--mint);display:grid;place-items:center;font-style:normal;font-size:11px;color:#fff}
+.chapters{list-style:none;margin:0;padding:0;display:grid;gap:6px;counter-reset:c}
+.chapters button{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;padding:14px 16px 16px;border-radius:18px;position:relative;overflow:hidden;transition:background .2s}
+.chapters .n{font:700 12px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chapters b{display:block;font:800 21px/1.1 var(--display);letter-spacing:-.03em;color:var(--muted);margin-top:3px;transition:color .2s}
+.chapters span.d{display:block;margin-top:6px;color:var(--muted);font-size:14.5px;transition:color .3s}
+.chapters i{position:absolute;left:16px;right:16px;bottom:8px;height:3px;border-radius:2px;background:var(--line);opacity:0}
+.chapters i::after{content:"";position:absolute;inset:0;width:0;border-radius:2px;background:var(--orange)}
+.chapters li.on button{background:#fff;box-shadow:var(--shadow-card)}
+.chapters li.on b{color:var(--ink)}
+.chapters li.on .n{color:var(--orange-ink)}
+.chapters li.on span.d{color:var(--ink-soft)}
+.chapters li.on i{opacity:1}
+.chapters li.on i::after{animation:prog var(--dur,9s) linear forwards}
+@keyframes prog{to{width:100%}}
+.chapters button:hover b{color:var(--ink)}
+
+/* Try it out: the real app in a phone */
+.tryit{margin-block:0 28px;border-radius:32px;padding:clamp(24px,4vw,56px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(20px,4vw,64px);align-items:center;background:radial-gradient(circle at 12% 88%,rgba(255,214,102,.45) 0 18%,transparent 19%),radial-gradient(circle at 92% 8%,rgba(255,122,61,.18) 0 22%,transparent 23%),var(--orange-wash)}
+.tryit h2{font-size:clamp(40px,5vw,70px);letter-spacing:-.05em;line-height:.95}
+.tryit .lede{margin-top:16px;font-size:clamp(16px,1.4vw,18px);color:var(--ink-soft);max-width:36ch}
+.tlist{margin:22px 0 0;padding:0;list-style:none;counter-reset:t;display:grid;gap:10px;max-width:40ch}
+.tlist li{counter-increment:t;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;color:var(--ink-soft);font-size:15.5px}
+.tlist li::before{content:counter(t);width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:var(--shadow-card);display:grid;place-items:center;font-weight:800;font-size:12.5px;color:var(--orange-ink)}
+.tlist b{color:var(--ink)}
+.phonewrap{display:flex;justify-content:center}
+.iphone{width:399px;padding:12px;border-radius:58px;background:#151515;box-shadow:0 0 0 2px #2d2d2d,inset 0 0 0 2px #3a3a3a,0 40px 80px -30px rgba(30,27,24,.6)}
+.iscr{--k:1;position:relative;width:375px;height:812px;border-radius:46px;overflow:hidden;background:#fffaf3;clip-path:inset(0 round 46px);isolation:isolate}
+.isb{position:absolute;top:0;left:0;right:0;height:calc(var(--k)*47px);display:flex;align-items:center;justify-content:space-between;padding:calc(var(--k)*6px) calc(var(--k)*30px) 0 calc(var(--k)*40px);font:700 calc(var(--k)*16px) var(--ui);color:#1e1b18;background:#fffaf3;z-index:2}
+.isb .isl{position:absolute;left:50%;top:calc(var(--k)*11px);width:calc(var(--k)*124px);height:calc(var(--k)*36px);margin-left:calc(var(--k)*-62px);border-radius:999px;background:#000}
+.isr{display:flex;gap:calc(var(--k)*6px);align-items:center}
+.isr svg{height:calc(var(--k)*12px);fill:currentColor}
+.iscr iframe{position:absolute;left:0;top:47px;width:375px;height:765px;border:0;background:#fffaf3;display:block}
+.ihome{position:absolute;bottom:calc(var(--k)*8px);left:50%;width:calc(var(--k)*140px);height:calc(var(--k)*5px);margin-left:calc(var(--k)*-70px);border-radius:3px;background:#1e1b18;z-index:3;pointer-events:none}
+@media(max-width:860px){.tryit{grid-template-columns:minmax(0,1fr)}}
+
+/* Walla, fueled by eucalyptus */
+.feed{margin-block:0 28px;border-radius:32px;padding:clamp(24px,4vw,56px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;
+background:radial-gradient(circle at 80% 85%,rgba(141,185,162,.45) 0 26%,transparent 27%),radial-gradient(circle at 15% 10%,rgba(255,214,102,.5) 0 14%,transparent 15%),var(--mint-wash)}
+.feed h2{font-size:clamp(40px,5vw,70px);letter-spacing:-.05em;line-height:.95}
+.feed h2 em{font-style:normal;color:var(--mint-ink)}
+.feed .lede{margin-top:16px;font-size:clamp(16px,1.4vw,18px);color:var(--ink-soft);max-width:38ch}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;border-radius:20px;background:#fff;box-shadow:var(--shadow-card);border:2px solid transparent;transition:transform .15s,border-color .15s;text-align:center}
+.opt:hover{transform:translateY(-3px);border-color:var(--mint)}
+.opt.picked{border-color:var(--mint-ink);background:var(--mint-wash);box-shadow:0 0 0 4px rgba(95,207,151,.25)}
+.opt .lv{display:flex;gap:2px;color:var(--mint-ink);min-height:20px}
+.opt .lv svg{width:18px;height:18px}
+.opt b{font:800 16px var(--display);letter-spacing:-.02em}
+.opt small{font-weight:700;color:var(--mint-ink)}
+.note{margin-top:12px;font-size:13.5px;color:var(--muted)}
+.stagew{display:flex;justify-content:center}
+.promise{list-style:none;padding:0;margin:0 0 56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.promise li{padding:22px;border-radius:24px;background:#fff;box-shadow:var(--shadow-card)}
+.promise h3{font-size:22px;letter-spacing:-.03em}
+.promise p{color:var(--ink-soft);margin-top:6px;font-size:15px}
+@media(max-width:860px){.hero,.story,.feed{grid-template-columns:minmax(0,1fr)}.hero-walla{order:-1}.promise{grid-template-columns:minmax(0,1fr)}.feed .stagew{order:-1}}
+/* ---- three levels of excitement: react first, then eat, then say thanks ---- */
+.wf-confetti{opacity:0}
+/* 1 leaf: a shy, happy little hop with rosy cheeks */
+.walla-feed.t-l1.is-incoming .walla-feed__svg{animation:r1 1.5s cubic-bezier(.45,0,.55,1) both;transform-origin:50% 100%}
+@keyframes r1{0%{transform:none}16%{transform:scale(1.04,.95)}36%{transform:translateY(-14px) scale(.98,1.03)}56%{transform:scale(1.03,.97)}72%{transform:translateY(-6px)}88%,100%{transform:none}}
+.t-l1 .wf-cheek{opacity:1}
+/* 3 leaves: claps its paws and wiggles */
+.walla-feed.t-l3.is-incoming .walla-feed__svg{animation:sway 1.2s cubic-bezier(.45,0,.55,1) 2 both;transform-origin:50% 100%}
+.walla-feed.t-l3.is-incoming .wf-paw-l{transform-origin:55px 170px;animation:clapL 2.4s ease-in-out both}
+.walla-feed.t-l3.is-incoming .wf-paw-r{transform-origin:145px 170px;animation:clapR 2.4s ease-in-out both}
+@keyframes clapL{0%,100%{transform:none}12%,28%,44%,60%,76%{transform:translate(22px,-22px) rotate(-35deg)}20%,36%,52%,68%,84%{transform:translate(33px,-22px) rotate(-40deg)}}
+@keyframes clapR{0%,100%{transform:none}12%,28%,44%,60%,76%{transform:translate(-22px,-22px) rotate(35deg)}20%,36%,52%,68%,84%{transform:translate(-33px,-22px) rotate(40deg)}}
+@keyframes sway{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-8px) rotate(-5deg)}50%{transform:translateY(0) rotate(0)}75%{transform:translateY(-8px) rotate(5deg)}}
+/* 5 leaves: a gasp, then a full backflip, hearts everywhere */
+.walla-feed.t-l5.is-incoming .walla-feed__svg{animation:r5 2.7s cubic-bezier(.45,0,.4,1) both;transform-origin:50% 62%}
+@keyframes r5{0%{transform:none}14%,26%{transform:scale(1.07)}36%{transform:translateY(6px) scale(1.04,.92)}64%{transform:translateY(-58px) rotate(-200deg)}86%{transform:translateY(0) rotate(-360deg) scale(1.03,.96)}100%{transform:rotate(-360deg)}}
+.walla-feed.t-l5.is-incoming .wf-hearts{opacity:1}
+.walla-feed.t-l5.is-incoming .wf-heart{animation:wf-float 1.6s ease-out infinite}
+.t-l5 .wf-cheek{opacity:1}
+/* thank-yous, one per level */
+.walla-feed.t-l1.is-happy .wf-heart:not(:first-child){display:none}
+.walla-feed.t-l3.is-happy .wf-heart:nth-child(n+3){display:none}
+.walla-feed.t-l3.is-happy .walla-feed__svg{animation:sway 1.3s cubic-bezier(.45,0,.55,1) infinite;transform-origin:50% 100%}
+.walla-feed.t-l3.is-happy .wf-paw-l,.walla-feed.t-l3.is-happy .wf-paw-r{animation:none}
+.walla-feed.t-l5.is-happy .wf-paw-l{transform-origin:55px 170px;animation:upL .5s ease-in-out infinite alternate}
+.walla-feed.t-l5.is-happy .wf-paw-r{transform-origin:145px 170px;animation:upR .5s ease-in-out infinite alternate}
+@keyframes upL{from{transform:translate(-26px,-46px) rotate(35deg)}to{transform:translate(-30px,-52px) rotate(5deg)}}
+@keyframes upR{from{transform:translate(26px,-46px) rotate(-35deg)}to{transform:translate(30px,-52px) rotate(-5deg)}}
+.walla-feed.t-l5.is-happy .wf-body{animation:wf-bounce .6s ease-in-out infinite}
+.walla-feed.t-l5.is-happy .wf-confetti{opacity:1}
+.wf-conf{transform-box:fill-box;transform-origin:center}
+.walla-feed.t-l5.is-happy .wf-conf{animation:fall 1.8s ease-in infinite}
+@keyframes fall{0%{opacity:0;transform:translateY(-20px) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translateY(150px) rotate(320deg)}}
+@keyframes shake{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@media(max-width:600px){.feed,.tryit{padding:22px 18px;border-radius:24px}.feed h2,.tryit h2{font-size:38px}.wrap{padding:0 14px}}
+@media(max-width:600px){.toast{font-size:10.5px;padding:6px 11px;gap:6px;bottom:5%}.toast i{width:14px;height:14px;font-size:9px}.chapters button{padding:11px 14px 14px}.chapters b{font-size:18px}.chapters span.d{font-size:13.5px}.story{padding-block:16px 20px}}
+@media(max-width:520px){.opt .lv svg{width:12px;height:12px}.opt{padding:12px 4px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ───────────────────────── Walla eats a eucalyptus leaf ───────────────────────── */
+.walla-feed {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+.walla-feed__bubble {
+  position: relative;
+  padding: 0.7rem 1.1rem;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(30,27,24,.04),0 8px 24px -12px rgba(30,27,24,.16);
+  font-family: "Bricolage Grotesque",ui-rounded,system-ui,sans-serif;
+  font-weight: 800;
+  font-size: 1.125rem;
+  text-align: center;
+  min-height: 2.9rem;
+  animation: wf-pop 0.35s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+.walla-feed__bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  background: #fff;
+  transform: rotate(45deg);
+  border-radius: 3px;
+}
+@keyframes wf-pop {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+}
+.walla-feed__svg {
+  overflow: visible;
+}
+.walla-feed__svg g,
+.walla-feed__svg ellipse,
+.walla-feed__svg path {
+  transform-box: view-box;
+}
+
+/* default visibility */
+.wf-eyes-sparkle,
+.wf-eyes-happy,
+.wf-mouth-open,
+.wf-mouth-chew,
+.wf-mouth-grin,
+.wf-crumb-stuck,
+.wf-hearts {
+  opacity: 0;
+}
+
+/* idle: a gentle sway */
+.walla-feed.is-idle .wf-body {
+  transform-origin: 100px 220px;
+  animation: wf-sway 3s ease-in-out infinite;
+}
+@keyframes wf-sway {
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+/* incoming: eyes go sparkly, mouth drops open in awe */
+.walla-feed.is-incoming .wf-eyes-normal {
+  opacity: 0;
+}
+.walla-feed.is-incoming .wf-eyes-sparkle {
+  opacity: 1;
+  transform-origin: 100px 94px;
+  animation: wf-twinkle 0.5s ease-in-out infinite alternate;
+}
+@keyframes wf-twinkle {
+  to {
+    transform: scale(1.06);
+  }
+}
+.walla-feed.is-incoming .wf-mouth-smile {
+  opacity: 0;
+}
+.walla-feed.is-incoming .wf-mouth-open {
+  opacity: 1;
+}
+.walla-feed.is-incoming .wf-head {
+  transform-origin: 100px 120px;
+  animation: wf-lean 1.3s ease-out forwards;
+}
+@keyframes wf-lean {
+  to {
+    transform: rotate(-6deg) translateY(-2px);
+  }
+}
+.wf-sprig-in {
+  animation: wf-drift 1.3s cubic-bezier(0.3, 0.8, 0.4, 1) both;
+}
+@keyframes wf-drift {
+  0% {
+    transform: translate(70px, -150px) rotate(-40deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  45% {
+    transform: translate(40px, -80px) rotate(18deg);
+  }
+  70% {
+    transform: translate(12px, -26px) rotate(-10deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+/* eating: chomp chomp, puffy cheeks, head bob */
+.walla-feed.is-eating .wf-mouth-smile {
+  opacity: 0;
+}
+.walla-feed.is-eating .wf-mouth-open {
+  animation: wf-chomp-a 0.32s steps(1) infinite;
+}
+.walla-feed.is-eating .wf-mouth-chew {
+  animation: wf-chomp-b 0.32s steps(1) infinite;
+}
+@keyframes wf-chomp-a {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes wf-chomp-b {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.walla-feed.is-eating .wf-eyes-normal {
+  opacity: 0;
+}
+.walla-feed.is-eating .wf-eyes-happy {
+  opacity: 1;
+}
+.walla-feed.is-eating .wf-cheek-l {
+  transform-origin: 66px 112px;
+  animation: wf-puff 0.32s ease-in-out infinite alternate;
+}
+.walla-feed.is-eating .wf-cheek-r {
+  transform-origin: 134px 112px;
+  animation: wf-puff 0.32s ease-in-out infinite alternate;
+}
+@keyframes wf-puff {
+  to {
+    transform: scale(1.6, 1.4);
+    opacity: 1;
+  }
+}
+.walla-feed.is-eating .wf-head {
+  transform-origin: 100px 130px;
+  animation: wf-bob 0.32s ease-in-out infinite alternate;
+}
+@keyframes wf-bob {
+  from {
+    transform: rotate(-3deg) translateY(0);
+  }
+  to {
+    transform: rotate(3deg) translateY(2px);
+  }
+}
+.wf-sprig {
+  transition: transform 0.25s ease-out;
+}
+.wf-leaf {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.wf-leaf.is-eaten {
+  opacity: 0;
+}
+.wf-crumb {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wf-crumb 0.6s ease-out forwards;
+}
+@keyframes wf-crumb {
+  to {
+    transform: translate(var(--dx), var(--dy)) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+/* burp: eyes shut, a little hop */
+.walla-feed.is-burp .wf-eyes-normal,
+.walla-feed.is-burp .wf-mouth-smile {
+  opacity: 0;
+}
+.walla-feed.is-burp .wf-eyes-happy {
+  opacity: 1;
+}
+.walla-feed.is-burp .wf-mouth-open {
+  opacity: 1;
+  transform-origin: 100px 134px;
+  animation: wf-burp 0.5s ease-out;
+}
+@keyframes wf-burp {
+  30% {
+    transform: scale(1.35);
+  }
+}
+.walla-feed.is-burp .wf-body {
+  transform-origin: 100px 225px;
+  animation: wf-hop 0.5s ease-out;
+}
+@keyframes wf-hop {
+  30% {
+    transform: translateY(-8px) scale(1.02, 0.98);
+  }
+}
+.walla-feed.is-burp .wf-crumb-stuck {
+  opacity: 1;
+}
+
+/* happy: big grin, rosy cheeks, belly pat, hearts */
+.walla-feed.is-happy .wf-eyes-normal,
+.walla-feed.is-happy .wf-mouth-smile {
+  opacity: 0;
+}
+.walla-feed.is-happy .wf-eyes-happy,
+.walla-feed.is-happy .wf-mouth-grin,
+.walla-feed.is-happy .wf-crumb-stuck,
+.walla-feed.is-happy .wf-hearts {
+  opacity: 1;
+}
+.walla-feed.is-happy .wf-cheek {
+  opacity: 1;
+}
+.walla-feed.is-happy .wf-cheek-l {
+  transform-origin: 66px 112px;
+  transform: scale(1.3);
+}
+.walla-feed.is-happy .wf-cheek-r {
+  transform-origin: 134px 112px;
+  transform: scale(1.3);
+}
+.walla-feed.is-happy .wf-body {
+  transform-origin: 100px 225px;
+  animation: wf-bounce 0.9s ease-in-out infinite;
+}
+@keyframes wf-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.walla-feed.is-happy .wf-paw-l {
+  transform-origin: 70px 150px;
+  animation: wf-pat 0.45s ease-in-out infinite alternate;
+}
+@keyframes wf-pat {
+  to {
+    transform: translate(10px, 8px) rotate(-12deg);
+  }
+}
+.wf-heart {
+  transform-box: fill-box;
+}
+.walla-feed.is-happy .wf-heart {
+  animation: wf-float 2s ease-out infinite;
+}
+@keyframes wf-float {
+  0% {
+    opacity: 0;
+    translate: 0 10px;
+    scale: 0.6;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 -40px;
+    scale: 1.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walla-feed * {
+    animation: none !important;
+  }
+  .walla-feed.is-happy .wf-hearts {
+    opacity: 1;
+  }
+}
+
+
+.walla-feed.is-eating .wf-head{animation-duration:.45s!important}
+.walla-feed{min-height:calc(var(--wsz,250px)*1.15 + 4.6rem);justify-content:flex-end}
+.walla-feed__bubble{width:min(100%,300px);height:3.6rem;min-height:0;display:flex;align-items:center;justify-content:center;line-height:1.15;font-size:1.02rem;box-sizing:border-box;animation:bfade .3s ease-out}
+@keyframes bfade{from{opacity:0;transform:translateY(4px)}}
+.wf-sprig-in{animation-duration:.7s!important}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<div id="heroWalla" hidden></div>
+
+ <section class="story" id="story">
+  <div class="frame"><div class="bar"><i></i><i></i><i></i></div>
+   <div class="stage">
+    <img src="img/lhc-home.webp" alt="Let 'Em Cook home: What's cooking tonight?" class="on">
+    <img src="img/lhc-add.webp" alt="Add a recipe from a link, text, photo, file or by typing">
+    <img src="img/lhc-recipe.webp" alt="A recipe page: Peach and Burrata Summer Salad">
+    <div class="pane" id="scalePane"><div class="pcard"><div class="phd"><div><span class="kick">Peach &amp; Burrata Summer Salad</span><b>Ingredients</b></div><div class="srv"><span>Serves</span><button aria-hidden="true">−</button><em id="srvN">4</em><button id="srvPlus" aria-hidden="true">+</button></div></div><ul id="ingList"></ul><div class="nav"><span class="startbtn" id="startBtn">Start cooking →</span></div></div></div>
+    <div class="pane" id="cookPane"><div class="pcard cook"><div class="phd"><div><span class="kick">Cooking · Peach &amp; Burrata Summer Salad</span><b id="stepCount">Step 1 of 4</b></div><span class="awake">Screen stays awake</span></div><ol id="stepList"></ol><div class="nav"><span id="stepBtn">Next step →</span></div></div></div>
+    <div class="ov ring5" id="ring5"></div><div class="ov url" id="ovUrl"></div><div class="ov serves" id="ovServes">4</div>
+    <div class="ov hl2" id="ovHl2"></div><div class="ov dim" id="ovDim"></div><div class="ov hl" id="ovHl"></div><div class="ov chk" id="ovChk">✓</div>
+    <div class="toast" id="toast"><i>✓</i><span id="toastT">Saved to your cookbook</span></div>
+    <div class="ripple" id="rip"></div>
+    <svg class="cursor" id="cur" viewBox="0 0 24 24"><path d="M4 2l15 11-6.5 1.2L9 21z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+   </div>
+  </div>
+  <ol class="chapters" id="chapters">
+   <li><button><span class="n">Chapter 1</span><b>Bring it in any way</b><span class="d">A link, pasted text, a photo, a PDF or Word file, or type it in. You check it over before it's saved.</span><i></i></button></li>
+   <li><button><span class="n">Chapter 2</span><b>Cleaned up and ready</b><span class="d">The salad lands in your cookbook as a clean recipe card, with a photo, tags and tidy steps.</span><i></i></button></li>
+   <li><button><span class="n">Chapter 3</span><b>Scale it to your table</b><span class="d">Making it for six instead of four? Every amount updates.</span><i></i></button></li>
+   <li><button><span class="n">Chapter 4</span><b>Cook without losing your place</b><span class="d">Big, clear steps you move through one at a time, and your screen stays awake while you cook.</span><i></i></button></li>
+  </ol>
+ </section>
+
+ <section class="feed">
+  <div>
+   <h2>Free forever. <em>Fueled by eucalyptus.</em></h2>
+   <p class="lede">No ads, no subscriptions, nothing locked away, and your recipes never leave your device. If it helps get dinner on the table, you can buy Walla a eucalyptus leaf.</p>
+   <div class="opts" role="group" aria-label="Feed Walla">
+    <button class="opt" data-n="1"><span class="lv">%L1%</span><b>A leaf</b><small>$3</small></button>
+    <button class="opt" data-n="3"><span class="lv">%L3%</span><b>A handful</b><small>$5</small></button>
+    <button class="opt" data-n="5"><span class="lv">%L5%</span><b>A whole branch</b><small>$10</small></button>
+   </div>
+   
+  </div>
+  <div class="stagew" id="feedWalla"></div>
+ </section>
+
+ <section class="tryit">
+  <div class="tcopy">
+   <h2>Try it out.</h2>
+   <p class="lede">This is the real app, running right here. Tap around like you would on your phone.</p>
+   <ol class="tlist">
+    <li><span><b>Open a recipe</b> and tap <b>+</b> to scale it for your table.</span></li>
+    <li><span><b>Let’s cook</b> walks you through it, step by step.</span></li>
+    <li><span><b>Add a recipe</b> from a link, pasted text, a photo or a file.</span></li>
+    <li><span>Tap the <b>leaf</b> up top to feed Walla.</span></li>
+   </ol>
+  </div>
+  <div class="phonewrap"><div class="iphone" id="iphone"><div class="iscr" id="iscr">
+   <div class="isb"><span>9:41</span><i class="isl"></i><span class="isr"><svg viewBox="0 0 18 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg><svg viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="2"/><rect x="23.5" y="4" width="2" height="4" rx="1" opacity=".45"/></svg></span></div>
+   <iframe id="appFrame" data-src="../lec-app/index.html" title="Let 'Em Cook, the real app"></iframe>
+   <i class="ihome"></i>
+  </div></div></div>
+ </section>
+
+</div>
+<script>
+(function(){
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var sleep=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
+
+/* ---------- Walla (ported from the app's WallaFeed) ---------- */
+var GREY='#AEB9C7',FACE='#BCC6D2',PINK='#F6C3CF',CHEEK='#F59AAE',NOSE='#3A3F4B',EYE='#262A33',APRON='#FF7A3D',LEAF='#8DB9A2',EDGE='#5E8F78';
+var BUBBLE={idle:'Psst… is that eucalyptus I smell?',incoming:'Is that… for ME?!',eating:'nom nom nom',burp:'*burp*  …oh my, excuse me!',happy:'THANK YOU!! You’re the best.'};
+function wallaSVG(size){
+ var hearts=[[42,60,0],[160,52,.5],[30,120,1],[172,118,1.5]].map(function(h,i){return '<path class="wf-heart" style="animation-delay:'+h[2]+'s" transform="translate('+h[0]+' '+h[1]+')" d="M0 6c-4-3-7-5.5-7-8.5a3.6 3.6 0 0 1 7-1.2 3.6 3.6 0 0 1 7 1.2c0 3-3 5.5-7 8.5z" fill="'+(i%2?APRON:CHEEK)+'"/>'}).join('');
+ return '<svg width="'+size+'" height="'+(size*1.15)+'" viewBox="0 0 200 230" class="walla-feed__svg" role="img" aria-label="Walla the koala">'+
+ '<g class="wf-hearts">'+hearts+'</g><g class="wf-confetti">'+[[30,10,0],[60,0,.5],[95,6,.2],[130,-4,.8],[165,8,.35],[45,30,1.1],[150,26,1.3],[110,20,.9]].map(function(c,i){return '<ellipse class="wf-conf" style="animation-delay:'+c[2]+'s" cx="'+c[0]+'" cy="'+c[1]+'" rx="4.4" ry="3" fill="'+(i%2?LEAF:EDGE)+'"/>'}).join('')+'</g><g class="wf-body">'+
+ '<ellipse cx="78" cy="214" rx="20" ry="11" fill="#8E9AAB"/><ellipse cx="122" cy="214" rx="20" ry="11" fill="#8E9AAB"/>'+
+ '<path d="M52 168c0-30 21-48 48-48s48 18 48 48v20c0 18-14 28-48 28s-48-10-48-28z" fill="'+GREY+'"/>'+
+ '<path d="M68 140h64v50c0 12-10 20-32 20s-32-8-32-20z" fill="'+APRON+'"/>'+
+ '<path d="M68 140c-6-6-10-14-10-22M132 140c6-6 10-14 10-22" stroke="'+APRON+'" stroke-width="6" stroke-linecap="round" fill="none"/>'+
+ '<path d="M100 186c-7-5-12-9-12-14a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-5 9-12 14z" fill="#FFF6EC"/><path d="M74 152h52" stroke="#FFB48A" stroke-width="3" stroke-linecap="round"/>'+
+ '<g class="wf-paw-l"><ellipse cx="55" cy="170" rx="13" ry="17" fill="'+GREY+'" transform="rotate(20 55 170)"/></g><g class="wf-paw-r"><ellipse cx="145" cy="170" rx="13" ry="17" fill="'+GREY+'" transform="rotate(-20 145 170)"/></g>'+
+ '<g class="wf-head"><circle cx="46" cy="76" r="30" fill="'+GREY+'"/><circle cx="154" cy="76" r="30" fill="'+GREY+'"/><circle cx="48" cy="78" r="18" fill="'+PINK+'"/><circle cx="152" cy="78" r="18" fill="'+PINK+'"/>'+
+ '<ellipse cx="100" cy="92" rx="54" ry="50" fill="'+FACE+'"/><rect x="68" y="42" width="64" height="22" rx="7" fill="#F4EEE5"/><circle cx="78" cy="34" r="17" fill="#fff"/><circle cx="122" cy="34" r="17" fill="#fff"/><circle cx="100" cy="24" r="21" fill="#fff"/>'+
+ '<path d="M84 50v10M100 50v10M116 50v10" stroke="#E4DCD0" stroke-width="2.5" stroke-linecap="round"/>'+
+ '<g class="wf-eyes-normal"><ellipse cx="78" cy="94" rx="6" ry="7" fill="'+EYE+'"/><ellipse cx="122" cy="94" rx="6" ry="7" fill="'+EYE+'"/><circle cx="80" cy="91" r="2.2" fill="#fff"/><circle cx="124" cy="91" r="2.2" fill="#fff"/></g>'+
+ '<g class="wf-eyes-sparkle"><ellipse cx="78" cy="94" rx="9" ry="10" fill="'+EYE+'"/><ellipse cx="122" cy="94" rx="9" ry="10" fill="'+EYE+'"/><path d="M81 87l1.3 3 3 1.3-3 1.3-1.3 3-1.3-3-3-1.3 3-1.3z" fill="#fff"/><path d="M125 87l1.3 3 3 1.3-3 1.3-1.3 3-1.3-3-3-1.3 3-1.3z" fill="#fff"/><circle cx="74" cy="99" r="1.8" fill="#fff"/><circle cx="118" cy="99" r="1.8" fill="#fff"/></g>'+
+ '<g class="wf-eyes-happy" fill="none" stroke="'+EYE+'" stroke-width="4" stroke-linecap="round"><path d="M70 97q8-10 16 0"/><path d="M114 97q8-10 16 0"/></g>'+
+ '<ellipse class="wf-cheek wf-cheek-l" cx="66" cy="112" rx="9" ry="6" fill="'+CHEEK+'" opacity=".75"/><ellipse class="wf-cheek wf-cheek-r" cx="134" cy="112" rx="9" ry="6" fill="'+CHEEK+'" opacity=".75"/>'+
+ '<path d="M100 96c11 0 15 8 15 15 0 9-7 15-15 15s-15-6-15-15c0-7 4-15 15-15z" fill="'+NOSE+'"/><ellipse cx="95" cy="104" rx="4" ry="2.5" fill="#fff" opacity=".35"/>'+
+ '<path class="wf-mouth-smile" d="M92 131c4 4 12 4 16 0" stroke="'+NOSE+'" stroke-width="3.5" stroke-linecap="round" fill="none"/>'+
+ '<g class="wf-mouth-open"><ellipse cx="100" cy="134" rx="8" ry="7" fill="#5B2B33"/><ellipse cx="100" cy="138" rx="5" ry="3" fill="#F28CA0"/></g>'+
+ '<path class="wf-mouth-chew" d="M91 132q4.5 4 9 0q4.5 4 9 0" stroke="'+NOSE+'" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'+
+ '<g class="wf-mouth-grin"><path d="M88 129q12 14 24 0z" fill="#5B2B33" stroke="'+NOSE+'" stroke-width="2.5" stroke-linejoin="round"/><path d="M94 135q6 4 12 0" fill="#F28CA0"/></g>'+
+ '<ellipse class="wf-crumb-stuck" cx="117" cy="127" rx="4.6" ry="3" fill="'+LEAF+'" stroke="'+EDGE+'" stroke-width="1" transform="rotate(-25 117 127)"/>'+
+ '</g></g><g class="wf-sprig-slot"></g><g class="wf-crumb-slot"></g></svg>';
+}
+function makeWalla(el,size){
+ el.innerHTML='<div style="--wsz:'+size+'px" class="walla-feed is-idle" aria-live="polite"><p class="walla-feed__bubble">'+BUBBLE.idle+'</p>'+wallaSVG(size)+'</div>';
+ var root=el.firstChild,bubble=root.querySelector('.walla-feed__bubble'),sprigSlot=root.querySelector('.wf-sprig-slot'),crumbSlot=root.querySelector('.wf-crumb-slot'),timers=[],busy=false;
+ function phase(p){var keep=[].filter.call(root.classList,function(c){return c.indexOf('t-')===0});root.className='walla-feed is-'+p+(keep.length?' '+keep.join(' '):'');var b=bubble.cloneNode(false);b.textContent=BUBBLE[p];bubble.replaceWith(b);bubble=b}
+ function say(t){var b=bubble.cloneNode(false);b.textContent=t;bubble.replaceWith(b);bubble=b}
+ function clear(){timers.forEach(clearTimeout);timers=[]}
+ function at(ms,fn){timers.push(setTimeout(fn,ms))}
+ function feed(leaves,done){
+  clear();busy=true;
+  if(reduce){phase('happy');busy=false;done&&done();return}
+  var STEP=7.5,SCALE=1.7,originX=100+SCALE*(leaves*STEP)+2;
+  var leafs='';for(var k=0;k<leaves;k++){var x=-leaves*STEP+k*STEP,up=k%2===0;leafs+='<ellipse class="wf-leaf" cx="'+x+'" cy="'+(up?-7:3.5)+'" rx="5.6" ry="4.4" fill="'+LEAF+'" stroke="'+EDGE+'" stroke-width="1.2" transform="rotate('+(up?-24:24)+' '+x+' '+(up?-7:3.5)+')"/>'}
+  var L=leaves===5?5:leaves===3?3:1;
+  var R=L===5?2700:L===3?2400:1500;
+  var LINES={1:['Ooh, is that for me?','Thank you, that’s so sweet!'],3:['A whole handful?! Yes please!','You’re the best!'],5:['A WHOLE BRANCH?!','Best. Day. EVER!']};
+  root.classList.remove('t-l1','t-l3','t-l5','t-wait');
+  phase('incoming');root.classList.add('t-l'+L);say(LINES[L][0]);
+  var sprig,leafEls;
+  at(R+150,function(){root.classList.remove('t-l'+L);root.classList.add('t-wait');say('Mmm, eucalyptus…');
+   sprigSlot.innerHTML='<g class="wf-sprig-in"><g class="wf-sprig" transform="translate('+originX+' 138) scale('+SCALE+')"><path d="M0 0 L'+(-leaves*STEP-4)+' -4" stroke="#8A7458" stroke-width="2" stroke-linecap="round"/>'+leafs+'</g></g>';
+   sprig=sprigSlot.querySelector('.wf-sprig');leafEls=sprigSlot.querySelectorAll('.wf-leaf');});
+  var CH=900,S=R+1000;
+  at(S,function(){root.classList.remove('t-wait');phase('eating')});
+  for(var i=1;i<=leaves;i++)(function(i){at(S+i*CH,function(){
+   leafEls[i-1].classList.add('is-eaten');
+   var shift=-Math.min(i,leaves-1)*STEP*SCALE;sprig.setAttribute('transform','translate('+(originX+shift)+' 138) scale('+SCALE+')');
+   crumbSlot.innerHTML='<g class="wf-crumbs">'+[[-14,-10],[12,-12],[-18,4],[16,6],[0,-16]].map(function(d,j){return '<ellipse class="wf-crumb" cx="100" cy="134" rx="2.4" ry="1.6" fill="'+(j%2?LEAF:EDGE)+'" style="--dx:'+d[0]+'px;--dy:'+d[1]+'px"/>'}).join('')+'</g>';
+  })})(i);
+  var end=S+leaves*CH,B=end+200;
+  at(end+150,function(){sprigSlot.innerHTML='';crumbSlot.innerHTML='';if(L>1){phase('burp')}});
+  if(L>1)B=end+1300;
+  at(B,function(){root.classList.add('t-l'+L);phase('happy');say(LINES[L][1])});
+  var H=L===5?4200:L===3?3400:2800;
+  at(B+H,function(){root.classList.remove('t-l1','t-l3','t-l5');phase('idle');busy=false;done&&done()});
+ }
+ return {feed:feed,say:say,phase:phase,isBusy:function(){return busy}};
+}
+var hero=makeWalla(document.getElementById('heroWalla'),220);
+hero.say("Hi, I'm Walla! Paste a recipe and I'll tidy it up.");
+var fw=makeWalla(document.getElementById('feedWalla'),250);
+var LEAFICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>';
+document.querySelectorAll('.opt').forEach(function(b){var n=+b.dataset.n;b.querySelector('.lv').innerHTML=Array(n+1).join(LEAFICON);
+ b.addEventListener('click',function(){userFed=true;fw.feed(n);document.querySelectorAll('.opt').forEach(function(x){x.classList.toggle('picked',x===b)})})});
+var userFed=false;
+/* auto-feed once when it scrolls into view, then every so often until someone clicks */
+function visible(el,cb){if(!('IntersectionObserver' in window)){cb();return}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){io.disconnect();cb()}},{threshold:.35});io.observe(el)}
+visible(document.querySelector('.feed'),function(){setTimeout(function(){fw.feed(3)},800);setInterval(function(){if(!userFed&&!fw.isBusy())fw.feed(1+2*Math.floor(Math.random()*3))},12000)});
+
+/* ---------- the story, four chapters ---------- */
+var imgs=[].slice.call(document.querySelectorAll('.stage>img')),cur=document.getElementById('cur'),rip=document.getElementById('rip'),toast=document.getElementById('toast'),toastT=document.getElementById('toastT');
+var ov={ring:$('ring5'),url:$('ovUrl'),serves:$('ovServes'),dim:$('ovDim'),hl:$('ovHl'),chk:$('ovChk'),hl2:$('ovHl2')};
+function $(id){return document.getElementById(id)}
+var chs=[].slice.call(document.querySelectorAll('#chapters li')),run=0,adv=null,DUR=11000;
+var panes=[].slice.call(document.querySelectorAll('.stage>img,.stage>.pane'));
+function show(i){panes.forEach(function(m,j){m.classList.toggle('on',i===j)})}
+var ING=[[3,'','ripe peaches, sliced'],[4,'','fresh figs, quartered'],[1,'','large ball burrata (8 oz)'],[2,'tbsp','extra-virgin olive oil'],[1,'tbsp','honey'],[1,'tbsp','balsamic glaze']];
+var STEPS=['Arrange the peaches and figs on a platter.','Tear the burrata open in the middle of the platter.','Drizzle everything with olive oil, honey and balsamic glaze.','Scatter with basil, flaky salt and pepper. Serve right away.'];
+var srvN=document.getElementById('srvN'),plus=document.getElementById('srvPlus'),stepBtn=document.getElementById('stepBtn');
+function frac(x){var w=Math.floor(x),f=x-w,s=f>.7?'¾':f>.4?'½':f>.2?'¼':'';return (w||!s?w:'')+s}
+function renderIng(n,chg){document.getElementById('ingList').innerHTML=ING.map(function(r){var q=frac(r[0]*n/4);return '<li><span class="q'+(chg?' chg':'')+'">'+q+(r[1]?' '+r[1]:'')+'</span><span>'+r[2]+'</span></li>'}).join('')}
+function renderSteps(k){document.getElementById('stepCount').textContent='Step '+(k+1)+' of 4';document.getElementById('stepList').innerHTML=STEPS.map(function(s,i){return '<li class="'+(i<k?'done':i===k?'cur':'')+'"><span class="n">'+(i<k?'✓':i+1)+'</span><span>'+s+'</span></li>'}).join('')}
+function pos(el){var st=document.querySelector('.stage').getBoundingClientRect(),r=el.getBoundingClientRect();return {x:(r.left+r.width/2-st.left)/st.width*100,y:(r.top+r.height/2-st.top)/st.height*100}}
+var PLUS={x:80,y:20},BTN={x:85,y:85},START={x:85,y:85};
+function measure(){show(3);PLUS=pos(plus);START=pos(document.getElementById('startBtn'));show(4);BTN=pos(stepBtn);show(0)}
+renderIng(4);renderSteps(0);
+function move(x,y){cur.style.left=x+'%';cur.style.top=y+'%'}
+function tap(el){if(!el)return;el.classList.add('press');setTimeout(function(){el.classList.remove('press')},160)}
+async function click(x,y,el){cur.classList.add('press');rip.style.left=x+'%';rip.style.top=y+'%';rip.classList.remove('go');void rip.offsetWidth;rip.classList.add('go');tap(el);await sleep(140);cur.classList.remove('press');await sleep(120)}
+function hl(x,y,w,h){var o=ov.hl2;o.style.left=x+'%';o.style.top=y+'%';o.style.width=w+'%';o.style.height=h+'%';o.classList.add('on')}
+function reset(){for(var k in ov)ov[k].classList.remove('on','flash');ov.url.textContent='';ov.serves.textContent='4';toast.classList.remove('on');renderIng(4);srvN.textContent='4';renderSteps(0)}
+function note(t){toastT.textContent=t;toast.classList.add('on')}
+/* each scene resolves when it's done; the next chapter follows a beat later */
+var scenes=[
+ async function(t){var ok=function(){return t===run};
+  show(0);move(48,46);await sleep(900);if(!ok())return;
+  move(10.1,15.1);await sleep(650);if(!ok())return;hl(1.2,12.2,17.8,5.7);await click(10.1,15.1);ov.hl2.classList.remove('on');
+  show(1);await sleep(450);if(!ok())return;
+  var W=[22.6,37.7,52.8,67.9,83];ov.ring.style.left=W[0]+'%';ov.ring.classList.add('on');note('Link, text, photo, file, or type it in');
+  for(var w of W){if(!ok())return;ov.ring.style.left=w+'%';await sleep(560)}
+  ov.ring.style.left=W[0]+'%';await sleep(560);ov.ring.classList.remove('on');toast.classList.remove('on');if(!ok())return;
+  move(29.8,30.6);await sleep(600);if(!ok())return;await click(29.8,30.6);
+  move(45,56);await sleep(550);if(!ok())return;await click(45,56);ov.url.classList.add('on');
+  var u='https://www.myfavouriteblog.com/peach-burrata-salad';for(var i=1;i<=u.length;i+=2){if(!ok())return;ov.url.textContent=u.slice(0,i+1);await sleep(22)}
+  move(89.3,56.1);await sleep(550);if(!ok())return;await click(89.3,56.1);note('Saved to your cookbook');await sleep(900)},
+ async function(t){var ok=function(){return t===run};
+  show(2);move(70,40);await sleep(1100);if(!ok())return;
+  move(33.8,58);await sleep(650);if(!ok())return;hl(30.2,53.8,7.2,8.6);await sleep(250);await click(33.8,58);await sleep(200)},
+ async function(t){var ok=function(){return t===run};
+  show(3);renderIng(4);srvN.textContent='4';move(33.8,58);await sleep(500);if(!ok())return;move(PLUS.x,PLUS.y);await sleep(650);
+  for(var n=5;n<=6;n++){if(!ok())return;await click(PLUS.x,PLUS.y,plus);srvN.textContent=n;renderIng(n,true);await sleep(700)}
+  if(!ok())return;note('Every amount scaled for 6');await sleep(900);toast.classList.remove('on');
+  move(START.x,START.y);await sleep(650);if(!ok())return;await click(START.x,START.y,document.getElementById('startBtn'));await sleep(150)},
+ async function(t){var ok=function(){return t===run};
+  show(4);renderSteps(0);move(START.x,START.y);await sleep(600);if(!ok())return;move(BTN.x,BTN.y);await sleep(650);
+  for(var k=1;k<=3;k++){if(!ok())return;await sleep(650);if(!ok())return;await click(BTN.x,BTN.y,stepBtn);renderSteps(k)}
+  if(!ok())return;await sleep(300);note('Dinner is served.');await sleep(1600)}
+];
+var EST=[9300,2400,4400,4400];
+function select(i){run++;var t=run;reset();if(!window._m){measure();window._m=1}clearTimeout(adv);
+ chs.forEach(function(c,j){c.classList.toggle('on',i===j);c.style.setProperty('--dur',EST[i]+'ms')});
+ var bar=chs[i].querySelector('i');bar.style.display='none';void bar.offsetWidth;bar.style.display='';
+ if(reduce){show(i===0?1:i+1);cur.style.display='none';adv=setTimeout(function(){select((i+1)%scenes.length)},6000);return}
+ scenes[i](t).then(function(){if(t===run)adv=setTimeout(function(){select((i+1)%scenes.length)},i===3?700:250)})}
+chs.forEach(function(c,i){c.querySelector('button').addEventListener('click',function(){select(i)})});
+visible(document.getElementById('story'),function(){select(0)});
+
+/* the real app in the phone: scale it to the frame and open straight into the 12 sample recipes */
+(function(){var scr=document.getElementById('iscr'),fr=document.getElementById('appFrame');
+ var ph=document.getElementById('iphone');function fit(){var avail=ph.parentNode.clientWidth;ph.style.zoom=Math.min(1,avail/399).toFixed(3)}fit();addEventListener('resize',fit);
+ var SHOW='.demo-banner,.exit-demo,.sidebar__demo{display:none!important}'+
+  'body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:120px;z-index:29;pointer-events:none;background:linear-gradient(rgba(255,250,243,0),rgba(255,250,243,.82) 45%,#fffaf3 80%)}'+
+  '.mobile-header{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#fffaf3!important}'+
+  'html.boot .toasts{opacity:0!important}'+
+  '.facts{gap:.45rem!important}.facts__item{flex:1 1 auto;min-width:4.4rem!important;margin-right:0!important;padding:.5rem .7rem!important}.facts dd{font-size:1.05rem!important;white-space:nowrap}';
+ function dress(d){if(!d||d.getElementById('showcase-css'))return;var st=d.createElement('style');st.id='showcase-css';st.textContent=SHOW;d.head.appendChild(st);d.documentElement.classList.add('boot');setTimeout(function(){d.documentElement.classList.remove('boot')},3500)}
+ /* if outside photos can't load here, the app shows local copies of the sample photos */
+ var IDS=['1599974579688','1709201417401','1612182062633','1695088223408','1712334562767','1790458820023','1642463045543','1499636136210','1606850246029'];
+ var started=false;function start(local){if(started)return;started=true;if(local){var m={};IDS.forEach(function(k){m[k]=1});window.__LEC_LOCAL=m}fr.src=fr.dataset.src}
+ var probe=new Image();probe.onload=function(){start(false)};probe.onerror=function(){start(true)};probe.src='https://images.unsplash.com/photo-1606850246029-dd00bd5eff97?auto=format&fit=crop&w=24&q=10';setTimeout(function(){start(true)},900);
+ fr.addEventListener('load',function(){var tries=0;try{dress(fr.contentDocument)}catch(e){}(function look(){try{var d=fr.contentDocument;if(!d)return;var b=[].filter.call(d.querySelectorAll('button,a'),function(x){return /Peek at .*sample recipes/i.test(x.textContent)})[0];if(b){b.click();return}}catch(e){return}if(++tries<40)setTimeout(look,150)})()})})();
+function send(){parent.postMessage({lhcHeight:Math.ceil(document.body.getBoundingClientRect().height)},'*')}
+addEventListener('load',send);addEventListener('resize',send);setTimeout(send,600);setTimeout(send,2000);
+})();
+</script>
+</body>
+</html>

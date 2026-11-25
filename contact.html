@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact · Nitai Weinberg</title>
+<meta name="description" content="Get in touch with Nitai Weinberg.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=1795600403">
+</head>
+<body>
+<nav><div class="wrap"><a class="brand" href="index.html">Nitai Weinberg</a><div class="links"><a href="work.html">Work</a><a href="writing.html">Writing</a><a href="about.html">About</a><a href="contact.html" aria-current="page">Contact</a></div></div></nav>
+<main>
+<div class="wrap">
+<div class="page-head"><p class="eyebrow">Contact</p><h1>Let's talk.</h1></div>
+<section class="contact">
+ <div><p class="lede">Building something, want to work together, or just up for a coffee? Send me a note. I'll write back.</p></div>
+ <form id="f" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+  <label>Name<input name="name" autocomplete="name" required></label>
+  <label>Email<input name="email" type="email" autocomplete="email" required></label>
+  <label>Message<textarea name="message" required></textarea></label>
+  <div><button class="btn primary" type="submit">Send message</button></div>
+  <p class="msg" id="m" role="status"></p>
+ </form>
+</section>
+</div>
+<script>(function(){var f=document.getElementById('f'),m=document.getElementById('m');f.addEventListener('submit',function(e){e.preventDefault();if(f.action.indexOf('YOUR_FORM_ID')>-1){m.textContent="Preview only: connect the form to send messages.";return}m.textContent='Sending…';fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){m.textContent=r.ok?"Thanks! I'll get back to you soon.":"Something went wrong. Please try again.";if(r.ok)f.reset()}).catch(function(){m.textContent="Something went wrong. Please try again."})})})();</script>
+</main>
+<footer><div class="wrap"><span>© 2026 Nitai Weinberg · Vancouver</span><div class="f-links"><a href="https://www.linkedin.com/in/nitaiweinberg/" target="_blank" rel="noopener">LinkedIn</a><a href="https://buildfoundations.substack.com/" target="_blank" rel="noopener">Substack</a></div></div></footer>
+</body>
+</html>

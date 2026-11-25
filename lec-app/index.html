@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+<script>/* Showcase: when you feed Walla, bring Walla into view so you can watch. */
+document.addEventListener('click',function(e){if(!e.target.closest('.feed-option'))return;var st=document.querySelector('.feed-hero__stage');if(st)setTimeout(function(){window.scrollTo({top:Math.max(0,st.getBoundingClientRect().top+window.scrollY-70),behavior:'smooth'})},60)},true);
+</script>
+<script>/* Showcase: when outside photos are blocked (like in a preview), show local copies of the sample photos instead. */
+(function(){var L=null;try{L=parent.__LEC_LOCAL}catch(e){}if(!L)return;var B=new URL('photos/',location.href).href;
+function map(v){var m=String(v||'').match(/images\.unsplash\.com\/photo-(\d+)/);return m&&L[m[1]]?B+m[1]+'.jpg':v}
+var d=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');Object.defineProperty(HTMLImageElement.prototype,'src',{configurable:true,get:d.get,set:function(v){d.set.call(this,map(v))}});
+var sa=Element.prototype.setAttribute;Element.prototype.setAttribute=function(n,v){if(this.tagName==='IMG'&&n==='src')v=map(v);return sa.call(this,n,v)};
+function fix(img){var s=img.getAttribute('src')||'',m=s.match(/images\.unsplash\.com\/photo-(\d+)/);if(m&&L[m[1]]){img.removeAttribute('srcset');img.setAttribute('src',B+m[1]+'.jpg')}}
+var MISS=['sample-chili-oil-noodles','sample-sheet-pan-chicken','sample-mango-smoothie'];
+function item(a){var el=a;for(var i=0;i<7&&el.parentElement;i++){var p=el.parentElement,cn=el.className;if(cn&&[].some.call(p.children,function(c){return c!==el&&c.className===cn}))return el;el=p}return a.closest('li,article')||a}
+var COVER={'Weeknight':'1712334562767','time=30':'1709201417401','Kid-Friendly':'1599974579688','Make-Ahead':'1790458820023','Lunchbox':'1790458820023','Breakfast':'1612182062633','Dessert':'1499636136210','Vegetarian':'1606850246029'};
+function tidy(){MISS.forEach(function(id){document.querySelectorAll('a[href$="'+id+'"]').forEach(function(a){var c=a.closest('li')||a.closest('article')||a;if(c.style.display!=='none')c.style.display='none'})});
+ document.querySelectorAll('p,span').forEach(function(e){if(e.children.length===0&&/^12 recipes$/.test(e.textContent.trim()))e.textContent='9 recipes'});
+ document.querySelectorAll('a[href^="#/?"]').forEach(function(a){var w=a.querySelector('.walla-head');if(!w||a.querySelector('img.sc-cover'))return;var k=Object.keys(COVER).filter(function(t){return a.getAttribute('href').indexOf(t)>-1})[0];if(!k)return;var host=a.querySelector('.bubble__img')||w.parentElement;host.style.position='relative';host.style.overflow='hidden';var im=document.createElement('img');im.className='sc-cover';im.alt='';im.src=B+COVER[k]+'.jpg';im.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit';host.appendChild(im)})}
+document.addEventListener('DOMContentLoaded',tidy);
+new MutationObserver(tidy).observe(document.documentElement,{subtree:true,childList:true});
+new MutationObserver(function(ms){ms.forEach(function(m){if(m.type==='attributes'){if(m.target.tagName==='IMG')fix(m.target)}else m.addedNodes.forEach(function(n){if(n.nodeType!==1)return;if(n.tagName==='IMG')fix(n);if(n.querySelectorAll)n.querySelectorAll('img').forEach(fix)})})}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});})();</script>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https: data: blob:; object-src 'none'; base-uri 'self'; form-action 'none'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Let ’Em Cook — every recipe has a home. A private recipe library that lives in your browser." />
+    <meta name="theme-color" content="#FFFAF3" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <title>Let ’Em Cook</title>
+    <script type="module" crossorigin src="./assets/index-BvpeSQqh.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-KaSU-z3Q.css">
+  <link rel="manifest" href="./manifest.webmanifest"></head>
+  <body>
+    <div id="root"></div>
+    <noscript>Let ’Em Cook needs JavaScript to run, because your recipes are stored in this browser.</noscript>
+  </body>
+</html>
