@@ -15,13 +15,13 @@ function build(){
   var r=Math.floor(i*rows/n);if(r!==lastRow){row=document.createElement('div');row.className='row';box.appendChild(row);lastRow=r}
   el.style.cssText='--c:'+b[3]+';--w:'+w+'px;--h:'+h+'px;--t:'+b[4];
   el.setAttribute('aria-label',b[0]+' by '+b[1]);
-  el.innerHTML='<span>'+esc(b[0])+'</span>';
+  el.innerHTML='<span class="t"><i>'+esc(b[0])+'</i></span><span class="a">'+esc(b[1].split(/[ ,&]+/).filter(Boolean).slice(-1)[0])+'</span>';
   el.addEventListener('click',function(){show(i,el,true)});
   if(i===cur)el.classList.add('on');
   row.appendChild(el);
  });
- /* shrink any title that is longer than its spine */
- box.querySelectorAll('.book span').forEach(function(sp){var max=sp.parentNode.clientHeight-22,fs=12;sp.style.fontSize=fs+"px";while((sp.scrollHeight>max||sp.scrollHeight>sp.clientHeight+1)&&fs>7){fs-=.5;sp.style.fontSize=fs+'px'}});
+ /* size each title to fill its spine without running off it */
+ box.querySelectorAll('.book .t').forEach(function(sp){var it=sp.firstChild,au=sp.nextSibling,avail=sp.parentNode.clientHeight-(au?au.getBoundingClientRect().height:0)-30,fs=15;it.style.fontSize=fs+'px';var len=it.getBoundingClientRect().height;if(len>avail){fs=Math.max(7.5,fs*avail/len);it.style.fontSize=fs.toFixed(1)+'px'}});
 }
 function show(i,el,user){var b=B[i];cur=i;
  box.querySelectorAll('.book').forEach(function(x){x.classList.toggle('on',x===el)});
