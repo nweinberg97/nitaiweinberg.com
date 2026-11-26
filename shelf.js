@@ -4,7 +4,7 @@
 (function(){
 var B=window.BOOKS||[],box=document.getElementById('case'),card=document.getElementById('bookcard');if(!box)return;
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-var KEY='shelf-colours-v2',saved={};
+var KEY='shelf-colours-v3',saved={};
 try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){saved={}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}}
 /* colours: [spine/cover background, text] — curated first, real-cover sample when we have one */
@@ -35,12 +35,16 @@ function sample(img){
 }
 
 /* ---------- covers: load early, keep in memory ---------- */
-/* cover sources, tried in order until one returns a real image:
-   Open Library (allows colour sampling), then Amazon's image server, then Google Books */
-function srcs(i){var isbn=B[i][5];return [
- {u:'https://covers.openlibrary.org/b/isbn/'+isbn+'-L.jpg?default=false',cors:true},
- {u:'https://images-na.ssl-images-amazon.com/images/P/'+isbn+'.01.LZZZZZZZ.jpg',cors:false},
- {u:'https://books.google.com/books/content?vid=ISBN'+isbn+'&printsec=frontcover&img=1&zoom=1',cors:false}
+/* cover sources, tried in order until one returns a real image.
+   Each goes through wsrv.nl, a free image service that resizes the cover (fast) and allows the page
+   to read its colours, so every spine can be painted from its real cover. Amazon first: best quality. */
+function px(u){return 'https://wsrv.nl/?url='+encodeURIComponent(u)+'&w=360&output=webp&q=82'}
+function srcs(i){var isbn=B[i][5],amz='https://images-na.ssl-images-amazon.com/images/P/'+isbn+'.01.LZZZZZZZ.jpg',ol='https://covers.openlibrary.org/b/isbn/'+isbn+'-L.jpg?default=false';return [
+ {u:px(amz),cors:true},
+ {u:px(ol),cors:true},
+ {u:px('https://books.google.com/books/content?vid=ISBN'+isbn+'&printsec=frontcover&img=1&zoom=1'),cors:true},
+ {u:amz,cors:false},
+ {u:ol,cors:false}
 ]}
 function load(i){
  if(imgs[i])return;var list=srcs(i),k=-1,img=new Image();imgs[i]=img;img.decoding='async';img.alt=B[i][0]+' cover';
