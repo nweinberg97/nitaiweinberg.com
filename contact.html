@@ -29,7 +29,7 @@
    <li><span>Elsewhere</span><b><a href="https://www.linkedin.com/in/nitaiweinberg/" target="_blank" rel="noopener">LinkedIn ↗</a><a href="https://buildfoundations.substack.com/" target="_blank" rel="noopener">Substack ↗</a></b></li>
   </ul>
  </div>
- <form id="f" class="c-card" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+ <form id="f" class="c-card">
   <fieldset class="topics"><legend>What's it about?</legend>
    <label><input type="radio" name="topic" value="Building something" checked><span>Building something</span></label>
    <label><input type="radio" name="topic" value="Working together"><span>Working together</span></label>
@@ -44,7 +44,7 @@
  </form>
 </section>
 </div>
-<script>(function(){var f=document.getElementById('f'),m=document.getElementById('m');f.addEventListener('submit',function(e){e.preventDefault();if(f.action.indexOf('YOUR_FORM_ID')>-1){m.textContent="Preview only: connect the form to send messages.";return}m.textContent='Sending…';fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){m.textContent=r.ok?"Thanks! I'll get back to you soon.":"Something went wrong. Please try again.";if(r.ok)f.reset()}).catch(function(){m.textContent="Something went wrong. Please try again."})})})();</script>
+<script>(function(){var f=document.getElementById('f'),m=document.getElementById('m'),b=f.querySelector('button');f.addEventListener('submit',function(e){e.preventDefault();if(!f.reportValidity())return;var d=new FormData(f);var P={from_name:d.get('name'),reply_to:d.get('email'),message:'['+d.get('topic')+'] '+d.get('message')};b.disabled=true;m.textContent='Sending…';fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({service_id:'service_wrnbapd',template_id:'template_vc7abxh',user_id:'qZCMk0yO7Rwu_EXe2',template_params:P})}).then(function(r){if(!r.ok)throw 0;m.textContent="Thanks! I'll get back to you soon.";f.reset()}).catch(function(){m.textContent='Something went wrong. Please try again.'}).finally(function(){b.disabled=false})})})();</script>
 </main>
 <footer><div class="wrap"><span>© 2026 Nitai Weinberg · Vancouver</span><div class="f-links"><a href="https://www.linkedin.com/in/nitaiweinberg/" target="_blank" rel="noopener">LinkedIn</a><a href="https://buildfoundations.substack.com/" target="_blank" rel="noopener">Substack</a></div></div></footer>
 </body>
