@@ -35,18 +35,27 @@ function sample(img){
 }
 
 /* ---------- covers: load early, keep in memory ---------- */
-function src(i,size){return 'https://covers.openlibrary.org/b/isbn/'+B[i][5]+'-'+size+'.jpg?default=false'}
+/* cover sources, tried in order until one returns a real image:
+   Open Library (allows colour sampling), then Amazon's image server, then Google Books */
+function srcs(i){var isbn=B[i][5];return [
+ {u:'https://covers.openlibrary.org/b/isbn/'+isbn+'-L.jpg?default=false',cors:true},
+ {u:'https://images-na.ssl-images-amazon.com/images/P/'+isbn+'.01.LZZZZZZZ.jpg',cors:false},
+ {u:'https://books.google.com/books/content?vid=ISBN'+isbn+'&printsec=frontcover&img=1&zoom=1',cors:false}
+]}
 function load(i){
- if(imgs[i])return;var img=new Image(),tried=false;imgs[i]=img;img.decoding='async';img.alt=B[i][0]+' cover';
- img.crossOrigin='anonymous';
+ if(imgs[i])return;var list=srcs(i),k=-1,img=new Image();imgs[i]=img;img.decoding='async';img.alt=B[i][0]+' cover';
+ function next(){k++;if(k>=list.length){ready[i]=false;return}
+  if(list[k].cors)img.crossOrigin='anonymous';else img.removeAttribute('crossorigin');
+  img.src=list[k].u}
  img.onload=function(){
-  if(img.naturalWidth<40){ready[i]=false;return}
+  /* missing covers come back as tiny placeholders: skip to the next source */
+  if(img.naturalWidth<60||img.naturalHeight<80){next();return}
   ready[i]=true;
-  if(!tried){try{var c=sample(img);saved[B[i][5]]=c;save();paint(i,c)}catch(e){}}
+  if(list[k].cors){try{var c=sample(img);saved[B[i][5]]=c;save();paint(i,c)}catch(e){}}
   if(i===cur)attach(i);
  };
- img.onerror=function(){if(!tried){tried=true;img.removeAttribute('crossorigin');img.crossOrigin=null;img.src=src(i,'L')}else ready[i]=false};
- img.src=src(i,'L');
+ img.onerror=next;
+ next();
 }
 function paint(i,c){col[i]=c;var el=box.querySelectorAll('.book')[i];if(el){el.style.setProperty('--c',c[0]);el.style.setProperty('--t',c[1])}
  if(i===cur){var cv=card.querySelector('.cover');if(cv){cv.style.setProperty('--c',c[0]);cv.style.setProperty('--t',c[1])}}}
