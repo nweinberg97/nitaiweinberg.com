@@ -842,3 +842,29 @@ img.photo{width:100%;height:auto;object-fit:cover;display:block}
 .book .a{writing-mode:vertical-rl;font:600 9px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--t,#fff);opacity:.75;white-space:nowrap;margin-top:6px}
 .book span{transform:none}
 .book .t i{font-style:normal;white-space:nowrap;display:block}
+
+/* welcome screen: the product wall sits further back */
+.hero3 .cols{opacity:.42;filter:saturate(.75) blur(.3px)}
+.veil{background:radial-gradient(60% 55% at 50% 50%,rgba(10,11,12,.94) 0%,rgba(10,11,12,.82) 55%,rgba(10,11,12,.6) 100%),linear-gradient(180deg,rgba(10,11,12,.45),rgba(10,11,12,.2) 40%,rgba(10,11,12,.85))}
+.hero3 .hero-note{opacity:.8}
+@media(max-width:700px){.hero3 .cols{opacity:.32}}
+
+/* spines: cloth-bound look, foil bands, embossed title */
+.book{color:var(--t,#fff);border-radius:2px 2px 1px 1px;
+ background:
+  linear-gradient(90deg,rgba(0,0,0,.34) 0,rgba(0,0,0,.08) 6%,rgba(255,255,255,.22) 16%,rgba(255,255,255,.06) 32%,rgba(255,255,255,0) 55%,rgba(0,0,0,.08) 80%,rgba(0,0,0,.36) 100%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,rgba(0,0,0,.035) 1px 2px,transparent 2px 4px),
+  var(--c);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.35),2px 3px 6px rgba(0,0,0,.35)}
+.book::before,.book::after{left:3px;right:3px;height:1.5px;background:currentColor;opacity:.45;box-shadow:0 3px 0 0 currentColor}
+.book::before{top:9px}.book::after{bottom:12px}
+.book .t{font-weight:700;letter-spacing:.02em;text-shadow:0 1px 0 rgba(0,0,0,.18),0 -1px 0 rgba(255,255,255,.08)}
+.book .a{opacity:.8;letter-spacing:.12em;margin-bottom:10px}
+.row{box-shadow:inset 0 10px 18px -8px rgba(0,0,0,.7)}
+
+/* cover: hinge groove, page edges, soft gloss */
+.bookcard .cover{border-radius:2px 6px 6px 2px;box-shadow:0 24px 40px -18px rgba(0,0,0,.9),0 2px 6px rgba(0,0,0,.4),4px 0 0 -1px #e9e4d8,5px 1px 0 -1px #cfc8b8,7px 2px 0 -2px #bdb5a3}
+.bookcard .cover::after{width:12px;z-index:2;background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.18) 40%,rgba(0,0,0,.18) 70%,transparent)}
+.bookcard .cover::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.16),rgba(255,255,255,0) 38%,rgba(0,0,0,0) 70%,rgba(0,0,0,.12))}
+.bookcard .cover img{animation:coverin .25s ease-out}
+@keyframes coverin{from{opacity:0}}
