@@ -13,21 +13,34 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=1795676500">
+<link rel="stylesheet" href="style.css?v=1795677300">
 </head>
 <body>
 <nav><div class="wrap"><a class="brand" href="index.html">Nitai Weinberg</a><div class="links"><a href="work.html">Work</a><a href="writing.html">Writing</a><a href="about.html">About</a><a href="contact.html" aria-current="page">Contact</a></div></div></nav>
 <main>
 <div class="wrap">
-<div class="page-head"><p class="eyebrow">Contact</p><h1>Let's talk.</h1></div>
-<section class="contact">
- <div><p class="lede">Building something, want to work together, or just up for a coffee? Send me a note. I'll write back.</p></div>
- <form id="f" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-  <label>Name<input name="name" autocomplete="name" required></label>
-  <label>Email<input name="email" type="email" autocomplete="email" required></label>
-  <label>Message<textarea name="message" required></textarea></label>
-  <div><button class="btn primary" type="submit">Send message</button></div>
-  <p class="msg" id="m" role="status"></p>
+<section class="contact2">
+ <div class="c-left">
+  <p class="eyebrow">Contact</p>
+  <h1>Let's <span>talk.</span></h1>
+  <p class="lede">Building something, want to work together, or just up for a coffee? Send me a note. I'll write back.</p>
+  <ul class="c-meta">
+   <li><span>Based in</span>Vancouver, BC</li>
+   <li><span>Elsewhere</span><b><a href="https://www.linkedin.com/in/nitaiweinberg/" target="_blank" rel="noopener">LinkedIn ↗</a><a href="https://buildfoundations.substack.com/" target="_blank" rel="noopener">Substack ↗</a></b></li>
+  </ul>
+ </div>
+ <form id="f" class="c-card" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+  <fieldset class="topics"><legend>What's it about?</legend>
+   <label><input type="radio" name="topic" value="Building something" checked><span>Building something</span></label>
+   <label><input type="radio" name="topic" value="Working together"><span>Working together</span></label>
+   <label><input type="radio" name="topic" value="Coffee"><span>Just a coffee</span></label>
+  </fieldset>
+  <div class="row2">
+   <label>Name<input name="name" autocomplete="name" required></label>
+   <label>Email<input name="email" type="email" autocomplete="email" required></label>
+  </div>
+  <label>Message<textarea name="message" placeholder="A few lines is plenty." required></textarea></label>
+  <div class="c-foot"><button class="btn primary" type="submit">Send message <span aria-hidden="true">→</span></button><p class="msg" id="m" role="status"></p></div>
  </form>
 </section>
 </div>

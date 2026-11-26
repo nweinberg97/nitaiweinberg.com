@@ -8,7 +8,8 @@ var KEY='shelf-colours-v3',saved={};
 try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){saved={}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}}
 /* colours: [spine/cover background, text] — curated first, real-cover sample when we have one */
-var col=B.map(function(b){var s=saved[b[5]];return s?[s[0],s[1]]:[b[3],b[4]]});
+/* spine colours are set by hand from the real covers */
+var col=B.map(function(b){return [b[3],b[4]]});
 var dims=B.map(function(b,i){return [32+((b[0].length*7+i*13)%20),Math.min(205,Math.max(150+((i*37)%30),b[0].length*8+60))]});
 var cur=0,lastW=0,imgs=[],ready=[];
 
@@ -55,7 +56,6 @@ function load(i){
   /* missing covers come back as tiny placeholders: skip to the next source */
   if(img.naturalWidth<60||img.naturalHeight<80){next();return}
   ready[i]=true;
-  if(list[k].cors){try{var c=sample(img);saved[B[i][5]]=c;save();paint(i,c)}catch(e){}}
   if(i===cur)attach(i);
  };
  img.onerror=next;
