@@ -56,11 +56,14 @@ function load(i){
   /* missing covers come back as tiny placeholders: skip to the next source */
   if(img.naturalWidth<60||img.naturalHeight<80){next();return}
   ready[i]=true;
+  art(i);
   if(i===cur)attach(i);
  };
  img.onerror=next;
  next();
 }
+/* carry the real cover's design onto its spine */
+function art(i){var el=box.querySelectorAll('.book')[i];if(!el||!imgs[i]||!ready[i])return;if(!el.querySelector('.bg')){var g=document.createElement('span');g.className='bg';g.setAttribute('aria-hidden','true');el.insertBefore(g,el.firstChild)}el.querySelector('.bg').style.backgroundImage='url("'+imgs[i].src.replace(/"/g,'%22')+'")';el.classList.add('art')}
 function paint(i,c){col[i]=c;var el=box.querySelectorAll('.book')[i];if(el){el.style.setProperty('--c',c[0]);el.style.setProperty('--t',c[1])}
  if(i===cur){var cv=card.querySelector('.cover');if(cv){cv.style.setProperty('--c',c[0]);cv.style.setProperty('--t',c[1])}}}
 function attach(i){var cv=card.querySelector('.cover');if(!cv||cv.dataset.i!=String(i)||cv.querySelector('img'))return;
@@ -90,6 +93,7 @@ function build(){
   row.appendChild(el);
  });
  fit();
+ for(var j=0;j<B.length;j++)art(j);
 }
 function fit(){box.querySelectorAll('.book .t').forEach(function(sp){var it=sp.firstChild,au=sp.nextSibling,avail=sp.parentNode.clientHeight-(au?au.getBoundingClientRect().height:0)-52,fs=14;it.style.fontSize=fs+'px';for(var k=0;k<3;k++){var len=it.getBoundingClientRect().height;if(len<=avail)break;fs=Math.max(7,fs*avail/len*.98);it.style.fontSize=fs.toFixed(1)+'px'}})}
 function show(i,el,user){var b=B[i];cur=i;
