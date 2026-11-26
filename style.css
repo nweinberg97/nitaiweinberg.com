@@ -908,12 +908,3 @@ img.photo{width:100%;height:auto;object-fit:cover;display:block}
 .c-card .msg{margin:0;color:var(--soft);font-size:14px}
 @media(max-width:860px){.contact2{grid-template-columns:minmax(0,1fr);min-height:0;gap:36px;padding:32px 0 56px}.c-left h1{font-size:clamp(48px,14vw,72px)}.c-meta{margin-top:28px}}
 @media(max-width:520px){.row2{grid-template-columns:1fr}.c-card{border-radius:20px}.c-card .btn.primary{width:100%;justify-content:center}}
-
-.book{overflow:hidden;isolation:isolate}
-.book .bg{position:absolute;inset:-14px;z-index:-1;background-size:300% 100%;background-position:12% 50%;background-repeat:no-repeat;filter:blur(7px) saturate(1.15);transform:scaleY(1.04);opacity:0;transition:opacity .6s ease;writing-mode:horizontal-tb}
-.book.art .bg{opacity:1}
-.book.art{background:
-  linear-gradient(90deg,rgba(0,0,0,.34) 0,rgba(0,0,0,.06) 7%,rgba(255,255,255,.2) 16%,rgba(255,255,255,.04) 32%,rgba(255,255,255,0) 55%,rgba(0,0,0,.08) 80%,rgba(0,0,0,.36) 100%),var(--c)}
-.book.art::before,.book.art::after{z-index:1}
-.book .t,.book .a{position:relative;z-index:1}
-.book.art .t,.book.art .a{text-shadow:0 0 4px color-mix(in srgb,var(--c) 85%,transparent),0 0 10px color-mix(in srgb,var(--c) 60%,transparent)}

@@ -56,7 +56,6 @@ function load(i){
   /* missing covers come back as tiny placeholders: skip to the next source */
   if(img.naturalWidth<60||img.naturalHeight<80){next();return}
   ready[i]=true;
-  art(i);
   if(i===cur)attach(i);
  };
  img.onerror=next;
@@ -93,7 +92,6 @@ function build(){
   row.appendChild(el);
  });
  fit();
- for(var j=0;j<B.length;j++)art(j);
 }
 function fit(){box.querySelectorAll('.book .t').forEach(function(sp){var it=sp.firstChild,au=sp.nextSibling,avail=sp.parentNode.clientHeight-(au?au.getBoundingClientRect().height:0)-52,fs=14;it.style.fontSize=fs+'px';for(var k=0;k<3;k++){var len=it.getBoundingClientRect().height;if(len<=avail)break;fs=Math.max(7,fs*avail/len*.98);it.style.fontSize=fs.toFixed(1)+'px'}})}
 function show(i,el,user){var b=B[i];cur=i;
