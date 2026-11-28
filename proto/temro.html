@@ -294,7 +294,7 @@ var COACH=['','<span class="st">Step 1 of 3</span>Pick an example, or type a tas
 function coach(n){var c=$('coach');if(!c)return;clearTimeout(coachT);if(!n){c.classList.remove('on');return}c.innerHTML=COACH[n];c.classList.add('on');if(n===3||n===6)coachT=setTimeout(function(){coach(5)},9000);if(n===4||n===5)coachT=setTimeout(function(){coach(0)},7000)}
 var wasOpen=false;document.addEventListener('mousedown',function(){wasOpen=$('launch').classList.contains('on')||$('drop').classList.contains('on')},true);
 desk.addEventListener('click',function(e){if(running||wasOpen)return;if(e.target.closest('.launch,.panel,.drop,.tmb,.hint,button'))return;openL()});
-function openL(){coach(1);closeDrop();$('launch').classList.add('on');desk.classList.add('dim');$('hint').classList.add('gone');setTimeout(function(){$('li').focus()},60);renderPrev()}
+function openL(){coach(1);closeDrop();$('launch').classList.add('on');desk.classList.add('dim');$('hint').classList.add('gone');$('li').focus();setTimeout(function(){$('li').focus()},60);renderPrev()}
 function closeL(){if(!running)coach(0);$('launch').classList.remove('on');desk.classList.remove('dim');if(!running)$('hint').classList.remove('gone')}
 $('hint').onclick=openL;$('lx').onclick=closeL;
 document.addEventListener('keydown',function(e){if(e.altKey&&(e.code==='Space'||e.key===' ')){e.preventDefault();openL()}else if(e.key==='Escape'){closeL();closeDrop()}});
@@ -396,7 +396,7 @@ function renderDrop(){[].forEach.call($('drop').querySelectorAll('.tabs button')
   bar.onpointermove=function(ev){var d=(ev.clientX-x0)/r.width*SPAN,q=15*6e4,v=Math.round((a0+d)/q)*q;v=Math.max(D0,Math.min(D0+SPAN-p.mins*6e4,v));p.atMs=v;bar.style.left=((v-D0)/SPAN*100)+'%';var lb=$('plt'+i);if(lb)lb.textContent=hm(v)+' '+ampm(v)};
   bar.onpointerup=function(){bar.onpointermove=null;bar.classList.remove('dragging');p.started=false;planned.sort(function(a,b){return a.atMs-b.atMs});toast('<b>'+esc(p.name)+'</b> moved to '+hm(p.atMs)+' '+ampm(p.atMs));renderDrop()}}});
  var dt=$('dType');if(dt)dt.onclick=openL}
-function checkPlanned(){planned.forEach(function(p){if(!p.started&&p.atMs<=now()&&now()-p.atMs<6e4){p.started=true;startSession(p.name,p.blocks,false);toast('Starting on time: <b>'+esc(p.name)+'</b>')}})}
+var LOADED=Date.now();function checkPlanned(){planned.forEach(function(p){if(!p.started&&p.atMs<=now()&&p.atMs>LOADED){p.started=true;startSession(p.name,p.blocks,false);toast('Starting on time: <b>'+esc(p.name)+'</b>')}})}
 
 function send(){parent.postMessage({temroProtoHeight:Math.ceil(document.body.getBoundingClientRect().height)},'*')}
 addEventListener('load',send);setTimeout(send,400);
